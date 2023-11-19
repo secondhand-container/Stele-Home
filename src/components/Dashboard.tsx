@@ -1,6 +1,10 @@
+import Image from "next/image";
 import { CardTitle, CardHeader, CardContent, Card } from "~/components/ui/card";
+import { api } from "~/utils/api";
 
 export default function Dashboard() {
+  const { data: events, isLoading } = api.event.getEvents.useQuery();
+
   return (
     <div className="grid grid-cols-4 gap-4 p-4">
       <Card>
@@ -8,24 +12,22 @@ export default function Dashboard() {
           <CardTitle className="text-lg font-semibold">Family Events</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="flex items-center justify-between py-2">
-            <span className="font-medium">Morning Exercise</span>
-            <span className="text-zinc-500 dark:text-zinc-400">
-              8:00 AM - 9:00 AM
-            </span>
-          </div>
-          <div className="flex items-center justify-between py-2">
-            <span className="font-medium">Parent-Teacher Meeting</span>
-            <span className="text-zinc-500 dark:text-zinc-400">
-              10:00 AM - 11:00 AM
-            </span>
-          </div>
-          <div className="flex items-center justify-between py-2">
-            <span className="font-medium">Grocery Shopping</span>
-            <span className="text-zinc-500 dark:text-zinc-400">
-              5:00 PM - 6:00 PM
-            </span>
-          </div>
+          {isLoading && <div>Loading...</div>}
+          {events?.length == 0 && "Du hast heute frei :)"}
+          {events?.map((event) => {
+            return (
+              <div
+                key={event.id}
+                className="flex items-center justify-between py-2"
+              >
+                <span className="font-medium">{event.summary}</span>
+                <span className="text-zinc-500 dark:text-zinc-400">
+                  {event.startDate.getHours()}:{event.startDate.getMinutes()} -{" "}
+                  {event.endDate.getHours()}:{event.endDate.getMinutes()}
+                </span>
+              </div>
+            );
+          })}
         </CardContent>
       </Card>
       <Card>
@@ -33,7 +35,7 @@ export default function Dashboard() {
           <CardTitle className="text-lg font-semibold">Route to Work</CardTitle>
         </CardHeader>
         <CardContent>
-          <img
+          <Image
             alt="Map to work"
             className="rounded-md object-cover"
             height="200"
@@ -52,7 +54,7 @@ export default function Dashboard() {
       <Card>
         <CardHeader>
           <CardTitle className="text-lg font-semibold">
-            Today's Weather
+            {"Today's Weather"}
           </CardTitle>
         </CardHeader>
         <CardContent className="flex items-center gap-4">
