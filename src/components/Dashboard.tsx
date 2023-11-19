@@ -1,112 +1,99 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import Image from "next/image";
 import { CardTitle, CardHeader, CardContent, Card } from "~/components/ui/card";
 import { api } from "~/utils/api";
 
 export default function Dashboard() {
+  const config = api.config.getLatest.useQuery();
+
   const { data: events, isLoading } = api.event.getEvents.useQuery();
 
-  return (
-    <div className="grid grid-cols-4 gap-4 p-4">
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-lg font-semibold">Family Events</CardTitle>
-        </CardHeader>
-        <CardContent>
-          {isLoading && <div>Loading...</div>}
-          {events?.length == 0 && "Du hast heute frei :)"}
-          {events?.map((event) => {
-            return (
-              <div
-                key={event.id}
-                className="flex items-center justify-between py-2"
-              >
-                <span className="font-medium">{event.summary}</span>
-                <span className="text-zinc-500 dark:text-zinc-400">
-                  {event.startDate.getHours()}:{event.startDate.getMinutes()} -{" "}
-                  {event.endDate.getHours()}:{event.endDate.getMinutes()}
+  if (!isLoading) {
+    console.log(events);
+  }
+
+  if (!config.data) {
+    return <div>Keine Daten</div>;
+  } else {
+    return (
+      <div
+        className="flex h-screen w-full flex-col border-none bg-white font-bold"
+        style={{ fontFamily: "Museo" }}
+      >
+        <div
+          id="header"
+          className="text-primary-color my-4 flex w-full flex-none items-center justify-between text-3xl"
+        >
+          <div className="flex flex-col">
+            <div>
+              Stele<span className="text-secondary-color text-4xl">@</span>
+            </div>
+            <div>Home</div>
+          </div>
+          <span>Hallo {config.data.name}!</span>
+          <div>
+            <span className="text-primary-color text-6xl">
+              {new Date().getHours()}
+            </span>
+            <span className="text-secondary-color align-top">
+              {new Date().getMinutes()}
+            </span>
+          </div>
+        </div>
+        <div className="h-max flex-1">
+          <div className="grid grid-cols-8 grid-rows-2 gap-8">
+            <div className="bg-background-color-dark text-primary-color col-span-4 rounded-xl p-4">
+              <div className="grid grid-cols-3">
+                <span className="col-span-1 text-2xl">Kalender</span>
+
+                <span
+                  className="col-span-2 flex flex-col gap-4 rounded-lg bg-white p-3 text-2xl font-normal"
+                  style={{ fontFamily: "MuseoSans" }}
+                >
+                  <span className="border-l-secondary-color border-4 border-white pl-4">
+                    Heute
+                  </span>
+                  <div className="flex flex-col gap-4">
+                    {!isLoading &&
+                      events?.map((event, index) => {
+                        return (
+                          <div
+                            key={index}
+                            className="bg-secondary-color text-primary-color flex flex-col rounded-lg p-3 text-sm"
+                          >
+                            <span className="text-sm">
+                              {event.startDate.toLocaleTimeString()} Uhr -{" "}
+                              {event.endDate.toLocaleTimeString()} Uhr
+                            </span>
+                            <span className="text-md font-bold">
+                              {event.summary}
+                            </span>
+                          </div>
+                        );
+                      })}
+                  </div>
                 </span>
               </div>
-            );
-          })}
-        </CardContent>
-      </Card>
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-lg font-semibold">Route to Work</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Image
-            alt="Map to work"
-            className="rounded-md object-cover"
-            height="200"
-            src="/placeholder.svg"
-            style={{
-              aspectRatio: "200/200",
-              objectFit: "cover",
-            }}
-            width="200"
-          />
-          <div className="pt-4 text-sm text-zinc-500 dark:text-zinc-400">
-            ETA: 30 minutes
-          </div>
-        </CardContent>
-      </Card>
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-lg font-semibold">
-            {"Today's Weather"}
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="flex items-center gap-4">
-          <svg
-            className=" h-10 w-10 text-yellow-400"
-            fill="none"
-            height="24"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            viewBox="0 0 24 24"
-            width="24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <circle cx="12" cy="12" r="4" />
-            <path d="M12 2v2" />
-            <path d="M12 20v2" />
-            <path d="m4.93 4.93 1.41 1.41" />
-            <path d="m17.66 17.66 1.41 1.41" />
-            <path d="M2 12h2" />
-            <path d="M20 12h2" />
-            <path d="m6.34 17.66-1.41 1.41" />
-            <path d="m19.07 4.93-1.41 1.41" />
-          </svg>
-          <div>
-            <div className="text-2xl font-bold">75°F</div>
-            <div className="text-sm text-zinc-500 dark:text-zinc-400">
-              Sunny
+            </div>
+            <div className="bg-primary-color text-secondary-color col-span-2 h-full rounded-xl p-4">
+              <span className="text-2xl">Wetter</span>
+            </div>
+            <div className="bg-secondary-color text-primary-color col-span-2 h-full rounded-xl p-4">
+              <span className="text-2xl">Einkaufsliste</span>
+            </div>
+
+            <div className="bg-background-color-dark text-primary-color col-span-3 h-full rounded-xl p-4">
+              <span className="text-2xl">Empfehlungen</span>
+            </div>
+
+            <div className="bg-background-color-dark text-primary-color col-span-5 h-full rounded-xl p-4 ">
+              <span className="text-2xl">Anfahrt</span>
             </div>
           </div>
-        </CardContent>
-      </Card>
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-lg font-semibold">Shopping List</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="flex items-center justify-between py-2">
-            <span className="font-medium">Apples</span>
-            <span className="text-zinc-500 dark:text-zinc-400">2 lb</span>
-          </div>
-          <div className="flex items-center justify-between py-2">
-            <span className="font-medium">Milk</span>
-            <span className="text-zinc-500 dark:text-zinc-400">1 gallon</span>
-          </div>
-          <div className="flex items-center justify-between py-2">
-            <span className="font-medium">Bread</span>
-            <span className="text-zinc-500 dark:text-zinc-400">1 loaf</span>
-          </div>
-        </CardContent>
-      </Card>
-    </div>
-  );
+        </div>
+      </div>
+    );
+  }
 }
