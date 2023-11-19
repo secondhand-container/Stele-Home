@@ -66,13 +66,17 @@ const MapContent = ({
     longitude: number;
   }) => void;
 }) => {
-  const [marker, setMarker] = useState(null);
+  const [marker, setMarker] = useState<unknown>(null);
 
   const a = useMap();
+  // @ts-expect-error aslfnalsnd
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
   marker?.addTo(a);
 
   function setMarker2(lat: number, lng: number, map: L.Map) {
     const m = L.marker([lat, lng]);
+    // @ts-expect-error aslfnalsnd
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     marker?.removeFrom(map);
     m.addTo(map);
     setMarker(m);

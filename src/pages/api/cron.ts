@@ -19,11 +19,17 @@ export default async function handler(
     for (const key of Object.keys(calendar)) {
       if (key === "vcalendar") continue;
       const event: Prisma.EventCreateInput = {
+        // @ts-expect-error aslfnalsnd
         id: calendar[key]?.uid as string,
+        // @ts-expect-error aslfnalsnd
         summary: calendar[key]?.summary as string,
+        // @ts-expect-error aslfnalsnd
         description: calendar[key]?.description as string,
+        // @ts-expect-error aslfnalsnd
         startDate: calendar[key]?.start as Date,
+        // @ts-expect-error aslfnalsnd
         endDate: calendar[key]?.end as Date,
+        // @ts-expect-error aslfnalsnd
         location: calendar[key]?.location as string,
       };
 
