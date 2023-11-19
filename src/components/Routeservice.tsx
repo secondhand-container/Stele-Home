@@ -7,7 +7,7 @@ export default function Routeservice() {
   // console.log('config: ', config)
 
   return (
-    <div className="grid grid-cols-4 gap-4 p-4 text-zinc-500">
+    <div className="grid grid-cols-2 gap-2 p-2 text-zinc-500">
       {isLoading && <div>Loading...</div>}
       <div className="grid grid-cols-2 gap-2 p-0">
         <img
