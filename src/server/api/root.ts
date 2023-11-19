@@ -1,4 +1,5 @@
 import { postRouter } from "~/server/api/routers/post";
+import { directionRouter } from "~/server/api/routers/direction";
 import { createTRPCRouter } from "~/server/api/trpc";
 import { configRouter } from "./routers/config";
 import { eventRouter } from "./routers/events";
@@ -11,7 +12,8 @@ import { eventRouter } from "./routers/events";
 export const appRouter = createTRPCRouter({
   post: postRouter,
   config: configRouter,
-  event: eventRouter
+  event: eventRouter,
+  direction: directionRouter
 });
 
 // export type definition of API

@@ -2056,6 +2056,11 @@ once@^1.3.0:
   dependencies:
     wrappy "1"
 
+openrouteservice-js@^0.3.2:
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/openrouteservice-js/-/openrouteservice-js-0.3.2.tgz#10deaf0d249b5d4afcddbd485c61419379c1adae"
+  integrity sha512-WHRb/MlQ84VITYQTlMqoObCOKRfhTy+rf/o54j/sZbIGT0WuqdvjgZu35auOq3fC0S53QqyOvWiTHy3rgWKXSQ==
+
 optionator@^0.9.3:
   version "0.9.3"
   resolved "https://registry.yarnpkg.com/optionator/-/optionator-0.9.3.tgz#007397d44ed1872fdc6ed31360190f81814e2c64"

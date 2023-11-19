@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { CardTitle, CardHeader, CardContent, Card } from "~/components/ui/card";
 import { api } from "~/utils/api";
+import Routeservice from "~/components/Routeservice";
 
 export default function Dashboard() {
   const { data: events, isLoading } = api.event.getEvents.useQuery();
@@ -107,6 +108,10 @@ export default function Dashboard() {
           </div>
         </CardContent>
       </Card>
+      <div className="bg-background-color-dark text-primary-color col-span-5 h-full rounded-xl p-4 ">
+        <span className="text-2xl">Anfahrt</span>
+        <Routeservice/>
+      </div>
     </div>
   );
 }
